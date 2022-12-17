@@ -1,0 +1,31 @@
+<div class="bg">
+<mat-card elevation="5" fxFlex class="content">
+
+  <mat-card-title>
+      <h2>User details</h2>
+  </mat-card-title>
+  <mat-card-content>
+
+              <p>Username: {{newUser.username}}</p>
+              <p>DisplayName: {{newUser.display_name}}</p>
+              <p>Karma: {{userKarma}}</p>
+              <label>User description:</label>
+              <textarea rows="10" readonly>{{newUser.description}}</textarea>
+
+
+
+          <button  mat-raised-button routerLink="/home" >Go Back</button>
+
+ 
+      <br>
+
+      <br>
+      <hr>
+  
+  </mat-card-content>
+
+</mat-card>
+</div>
+
+
+

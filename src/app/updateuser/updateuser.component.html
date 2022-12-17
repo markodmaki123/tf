@@ -1,0 +1,32 @@
+<div class="bg">
+<mat-card elevation="5" fxFlex class="content">
+
+    <mat-card-title>
+        <h2>Update user</h2>
+    </mat-card-title>
+    <mat-card-content>
+        
+        <p *ngIf="notification" [class]="notification.msgType">{{notification.msgBody}}</p>
+        <form (ngSubmit)="onSubmit()" *ngIf="!submitted" [formGroup]="form">
+
+            <mat-form-field>
+                <input formControlName="display_name" matInput placeholder={{newUser.display_name}} required>
+            </mat-form-field>
+
+            <textarea formControlName="description" class = "mat-form" rows="10" value="{{newUser.description}}">{{newUser.description}}</textarea>
+            <button [disabled]="!form.valid"  mat-raised-button type="submit">Update user</button>
+            <br>
+            <button  mat-raised-button routerLink="/home" >Go Back</button>
+
+        </form>
+        <br>
+
+        <br>
+        <hr>
+    
+    </mat-card-content>
+
+</mat-card>
+</div>
+
+

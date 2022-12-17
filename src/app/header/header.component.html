@@ -1,0 +1,38 @@
+<mat-toolbar class="app-navbar">
+    <div class="right">
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-end center">
+
+            <button *ngIf="!hasSignedIn()" mat-button mat-ripple routerLink="/home" >
+                <img src="../assets/reddit.png" alt="asdasdasd" style="width: 10%;  position: relative; right: 270%;"/>
+            </button>
+   
+            <button *ngIf="hasSignedIn()" mat-button mat-ripple routerLink="/home">
+                <img src="../assets/reddit.png" alt="asdasdasd" style="width: 10%;  position: relative; left: -195%;"/>
+            </button>
+
+            <button *ngIf="!hasSignedIn() && router.url!='/signup'"  mat-button mat-ripple routerLink="/signup">
+                <span>Sign up</span>
+            </button>
+            
+            <button *ngIf="!hasSignedIn() && router.url!='/login'  "mat-button mat-ripple routerLink="/login">
+                <span>Login</span>
+            </button>
+            <button (click)= "userDetails()" *ngIf="hasSignedIn()" mat-button mat-ripple>
+                <span>User details</span>
+            </button>
+            <button (click)= "changePassword()" *ngIf="hasSignedIn()" mat-button mat-ripple>
+                <span>Change passoword</span>
+            </button>
+            <button (click)= "updateUser()" *ngIf="hasSignedIn()" mat-button mat-ripple>
+                <span>Update profile</span>
+            </button>
+            <button (click)= "logOut()" *ngIf="hasSignedIn()" mat-button mat-ripple>
+                <span>Log out</span>
+            </button>
+        
+            <mat-menu #userMenu [overlapTrigger]="false" class="app-header-userMenu" yposition="below">
+                <app-user-menu></app-user-menu>
+            </mat-menu>
+        </div>
+    </div>
+</mat-toolbar>

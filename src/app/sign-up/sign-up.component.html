@@ -1,0 +1,54 @@
+<div class="bg">
+<mat-card elevation="5" fxFlex class="content">
+
+    <mat-card-title>
+        <h2>{{title}}</h2>
+    </mat-card-title>
+
+    <mat-card-content>
+        <p *ngIf="notification" [class]="notification.msgType">{{notification.msgBody}}</p>
+        <form (ngSubmit)="onSubmit()" *ngIf="!submitted" [formGroup]="form">
+            <mat-form-field>
+                <label>First Name: </label>
+                <input formControlName="name" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <label>Surname: </label>
+                <input formControlName="surname" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <label>Username: </label>
+                <input formControlName="username" matInput required>
+            </mat-form-field>
+            <mat-form-field>
+                <label>Password: </label>
+                <input formControlName="password" matInput required type="password">
+            </mat-form-field>
+            <mat-form-field>
+                <label>Email: </label>
+                <input formControlName="email" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <label>Age: </label>
+                <input formControlName="age" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <label>Residance: </label>
+                <input formControlName="residance" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <label>Gender: </label>
+                <input formControlName="gender" matInput>
+            </mat-form-field>
+            <button [disabled]="!form.valid"  mat-raised-button type="submit">Sign up</button>
+            <br>
+            <button  mat-raised-button routerLink="/home" >Go Back</button>
+        </form>
+        <br>
+        <mat-spinner *ngIf="submitted" mode="indeterminate"></mat-spinner>
+        <br>
+        <hr>
+    </mat-card-content>
+    
+</mat-card>
+</div>

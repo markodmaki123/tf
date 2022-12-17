@@ -1,0 +1,26 @@
+
+
+.content {
+    padding: 3%;
+    background-color: rgb(116, 144, 174);
+    height: 100%;
+    white-space:nowrap;
+}
+
+.posts{
+    display: inline-block;
+    width:90%;
+    margin-left: 2%;
+    margin-right: 0%;
+}
+
+.com{
+    display: inline-block;
+    margin-left:-5%;
+    height: auto;
+}
+p {
+text-align: center;
+   line-height: 50px;
+   font-size: 30px;
+   }

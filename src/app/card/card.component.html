@@ -1,0 +1,43 @@
+<mat-card class="card-container">
+  <mat-card-header>
+    
+    <mat-card-subtitle > r/{{club}}. Posted by: {{displayName}}</mat-card-subtitle>
+    <mat-card-title ><b>{{title}}</b></mat-card-title>
+    
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      {{content}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+
+    <div>   
+
+
+        <button (click)="upvote()"  class="vote" mat-raised-button>
+          <img src="../assets/upvote.png" style="width: 20px">
+        </button>
+    
+        <div class="karma">{{karma}}</div>
+        <div style="margin-left: 35%;">
+        <button (click)="downvote()" class="vote" mat-raised-button>
+          <img src="../assets/downvote.png" style="width: 20px">
+        </button>
+
+    
+        <button (click)="onButtonClick()" color="primary" mat-raised-button>
+            Comments
+        </button>
+        <button (click)="onButtonClick1()" color="primary" mat-raised-button>
+          Delete
+        </button>
+      </div>
+      </div>
+
+
+
+    </mat-card-actions>
+
+
+</mat-card>
