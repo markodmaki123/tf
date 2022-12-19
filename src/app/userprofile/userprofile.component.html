@@ -1,0 +1,17 @@
+<div class="content">
+
+    <app-post (apiClick)="makeRequest($event)" [responseObj]="" apiText="Comments"></app-post>
+
+    <div class="posts">
+
+        <div *ngFor="let post of posts">
+            <p>
+                <app-card (apiClick)="makeRequest($event)"  apiText="Comments" fxFlex
+                          postId={{post.id}} content={{post.text}} title={{post.title}} author= {{post.author_name}}  >
+                </app-card>
+            </p>
+        </div>
+    </div>
+
+
+</div>

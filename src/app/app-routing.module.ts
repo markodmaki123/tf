@@ -1,3 +1,4 @@
+// @ts-ignore
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -61,6 +62,10 @@ const routes: Routes = [
   {
     path: ':username/userdetails',
     component: UserdetailsComponent,
+  },
+  {
+    path: ':username/userprofile',
+    component: UserProfileComponent,
   },
 
 ];
