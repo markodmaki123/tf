@@ -29,7 +29,6 @@ export class CardComponent implements OnInit {
   @Input() apiText: string;
   @Input() responseObj: any;
   
-  karma: number;
   @Output() pid: number;
 
   upvoted: boolean = false;
@@ -60,44 +59,45 @@ export class CardComponent implements OnInit {
       type: null
     }
     this.user = {
-      id: 0,
-      password:'',
-      username:'',
-      display_name:''
+      username: '',
+      password: '',
+      name: '',
+      surname: '',
+      age: 0,
+      gender: '',
+      residance: ''
     }
     this.user1 = {
-      id: 0,
-      password:'',
-      username:'',
-      display_name:''
+      username: '',
+      password: '',
+      name: '',
+      surname: '',
+      age: 0,
+      gender: '',
+      residance: ''
     }
    }
 
   ngOnInit() {
-    console.log(this.author)
     this.pid = this.postId
     this.returnUrl = this.route.snapshot.paramMap.get('name');
 
     this.username = this.authService.getUsername()
-
+    this.displayName = this.username
     this.getUser(this.author)
-    this.getUser1(this.username)
-
-    console.log(this.getUser(this.author))
-    
-    this.getKarma(this.pid)
+    this.getUser1(this.username) 
     
   }
 
   getUser(username: String){
     return this.http.get<any>(`http://localhost:8080/api/user/username/${username}/`).subscribe(
-      user=> {this.user = user; this.displayName = this.user.display_name; console.log("ID USERA" + this.user.id + this.user.display_name) }
+      user=> {this.user = user;}
      
     )
   }
   getUser1(username: String){
     return this.http.get<any>(`http://localhost:8080/api/user/username/${username}/`).subscribe(
-      user=> {this.user1 = user; console.log("ID USERA" + this.user.id + this.user.display_name) }
+      user=> {this.user1 = user; }
      
     )
   }
@@ -106,14 +106,13 @@ export class CardComponent implements OnInit {
     if(this.authService.tokenIsPresent())
     {
 
-    console.log(this.user1.id +" " + this.pid);
     this.newReaction.post_id = this.pid;
-    this.newReaction.voter_id = this.user1.id;
-    this.newReaction.type = ReactionType.UPVOTE
+    //this.newReaction.voter_id = this.user1.id;
+    this.newReaction.type = ReactionType.LIKE
     
     this.postVote(this.newReaction).subscribe(data=> {console.log(data)
     
-    console.log("ukupna karma " );this.getKarma(this.pid)})
+    })
     
     }
     else{
@@ -124,28 +123,22 @@ export class CardComponent implements OnInit {
   downvote(){
     if(this.authService.tokenIsPresent())
     {
-    console.log(this.user1.id +" " + this.pid);
     this.newReaction.post_id = this.pid;
-    this.newReaction.voter_id = this.user1.id;
-    this.newReaction.type = ReactionType.DOWNVOTE
+    //this.newReaction.voter_id = this.user1.id;
+    this.newReaction.type = ReactionType.DISLIKE
     
     this.postVote(this.newReaction).subscribe(data=> {console.log(data)
-      console.log("ukupna karma " );this.getKarma(this.pid)})
+      })
     }
     else{
       this.router.navigateByUrl('/login');
     }
-}
+  }
 
-postVote(reaction: Reaction):Observable<any>{
-  return this.http.post("http://localhost:8080/api/reaction/", reaction);
-}
+  postVote(reaction: Reaction):Observable<any>{
+    return this.http.post("http://localhost:8080/api/reaction/", reaction);
+  }
 
-getKarma(id: number){
-  return this.http.get<any>(`http://localhost:8080/api/reaction/${id}/`).subscribe(
-    karma=> {this.karma = karma; console.log(karma)}
-  );
-}
 
 
   onButtonClick() {

@@ -36,11 +36,13 @@ export class UserdetailsComponent implements OnInit {
     private http: HttpClient,
     private _Activatedroute:ActivatedRoute) { 
       this.newUser = {
-        id: 0,
-        password: "",
-        username: "",
-        display_name:"",
-        description: ""
+        username: '',
+        password: '',
+        name: '',
+        surname: '',
+        age: 0,
+        gender: '',
+        residance: ''
       }
     }
 
@@ -49,9 +51,9 @@ export class UserdetailsComponent implements OnInit {
       this.username = params.get(`username`) || ""
       this.getUser(this.username).subscribe(newUser => {
       this.newUser = newUser
-      this.getKarma(newUser.id).subscribe(
+      /*this.getKarma(newUser.id).subscribe(
         karma=> { this.userKarma = karma; console.log("ovo je karma korisnika" + karma)}
-     );
+     );*/
     })
     }); 
     this.username = this.route.snapshot.paramMap.get('username');

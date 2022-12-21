@@ -1,4 +1,4 @@
 export enum ReactionType{
-    UPVOTE,
-    DOWNVOTE
+    LIKE,
+    DISLIKE
 }

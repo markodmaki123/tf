@@ -7,12 +7,13 @@ import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
 import { CreatepostComponent } from './createpost/createpost.component';
-import { CommunityComponent } from './community/community.component';
-import { CreatecommunityComponent } from './createcommunity/createcommunity.component';
-import { UpdatecommunityComponent } from './updatecommunity/updatecommunity.component';
+//import { CommunityComponent } from './community/community.component';
+//import { CreatecommunityComponent } from './createcommunity/createcommunity.component';
+/*import { UpdatecommunityComponent } from './updatecommunity/updatecommunity.component';*/
 import { UpdateuserComponent } from './updateuser/updateuser.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { UserdetailsComponent } from './userdetails/userdetails.component';
+import { UserProfileComponent } from './userprofile/userprofile.component';
 const routes: Routes = [
   {
     path: 'home',
@@ -35,7 +36,7 @@ const routes: Routes = [
     path: ':username/createpost',
     component: CreatepostComponent,
   },
-  {
+  /*{
     path: ':username/community/:name',
     component: CommunityComponent,
   },  
@@ -46,11 +47,11 @@ const routes: Routes = [
   {
     path: ':username/createcommunity',
     component: CreatecommunityComponent,
-  },
-  {
+  },*/
+  /*{
     path: ':username/:name/updatecommunity',
     component: UpdatecommunityComponent,
-  },
+  },*/
   {
     path: ':username/updateuser',
     component: UpdateuserComponent,
