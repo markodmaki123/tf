@@ -15,16 +15,19 @@
     <div>   
 
 
-        <button (click)="upvote()"  class="vote" mat-raised-button>
-          <img src="../assets/upvote.png" style="width: 20px">
+        <button (click)="upvote()"  class="primary" mat-raised-button>
+          <img src="../assets/like.png" style="width: 20px">
         </button>
     
-        <div class="karma">{{karma}}</div>
+        <div class="likes">{{likes}}</div>
         <div style="margin-left: 35%;">
 
     
         <button (click)="onButtonClick1()" color="primary" mat-raised-button>
-          Delete
+          List
+        </button>
+        <button (click)="onButtonClick2()" color="primary" mat-raised-button>
+          Number of likes
         </button>
       </div>
       </div>

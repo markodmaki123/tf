@@ -67,6 +67,18 @@ export class AuthService {
       }));
   }
 
+  likepost(like){
+    const postHeaders = new HttpHeaders({
+      'Access-Control-Allow-Origin': '*',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    });
+    return this.apiService.post(this.config.likes_url, JSON.stringify(like), postHeaders)
+      .pipe(map(() => {
+        console.log('Create post sucsess');
+      }));
+  }
+
   logout() {
     localStorage.removeItem('jwt')
     console.log('Logout success');

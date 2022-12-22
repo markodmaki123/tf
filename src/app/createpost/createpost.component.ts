@@ -43,6 +43,7 @@ export class CreatepostComponent implements OnInit {
     private http: HttpClient
   ) {
     this.newPost = {
+      tweetid : "",
       title : "",
       body : "",
       username:""
@@ -82,8 +83,5 @@ export class CreatepostComponent implements OnInit {
       this.router.navigate([this.returnUrl]);})
     
   }
-
-  
-
 
 }

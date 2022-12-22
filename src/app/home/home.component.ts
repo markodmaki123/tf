@@ -7,6 +7,8 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OuterSubscriber } from 'rxjs/internal-compatibility';
 import { User } from '../model/user2.model';
+import { Reaction } from '../model/reaction.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -20,8 +22,7 @@ export class HomeComponent implements OnInit {
   posts: Post[]=[];
   user!:User;
   author_name: String;
-  communityName: String;
-  username: string;
+  username: String;
 
   constructor(
     private http: HttpClient,
@@ -68,12 +69,34 @@ export class HomeComponent implements OnInit {
     return this.http.get<any>(`http://localhost:8080/api/tweet/username/${this.username}/`,{'headers' : headers});
   }
 
+  getList(id : String) {
+    const headers= new HttpHeaders()
+    return this.http.get<any>(`http://localhost:8080/api/tweet/list/${id}`,{'headers' : headers})
+  }
+
+  getLikes(id : String){
+    const headers= new HttpHeaders()
+    return this.http.get<any>(`http://localhost:8080/api/tweet/like/${id}/`,{'headers' : headers})
+  }
+
   getUsername(){
     return this.authService.getUsername();
   }
 
   hasSignedIn(){
     return this.authService.tokenIsPresent()
+  }
+
+  postVote(reaction : Reaction){
+    const postHeaders = new HttpHeaders({
+      'Access-Control-Allow-Origin': '*',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    });
+    return this.http.post("http://localhost:8080/api/tweet/like/", JSON.stringify(reaction))
+      .pipe(map(() => {
+        console.log('Liked');
+      }));
   }
   
   

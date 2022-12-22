@@ -1,12 +1,16 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { throwToolbarMixedModesError } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Reaction } from '../model/reaction.model';
-import { ReactionType } from '../model/reactiontype.model';
 import { User } from '../model/user2.model';
-import { AuthService } from '../service';
+import { Post } from '../model/post.model';
+import { LikeNumber } from '../model/like.model';
+import { AuthService, PostService, ApiService, ConfigService } from '../service';
+import { HomeComponent } from '../home/home.component';
+import * as internal from 'assert';
 
 @Component({
   selector: 'app-card',
@@ -17,7 +21,7 @@ export class CardComponent implements OnInit {
 
   expand = false;
 
-  @Input() postId: number;
+  @Input() postId: string;
 
   @Input() club: string;
   @Input() title: string;
@@ -29,10 +33,9 @@ export class CardComponent implements OnInit {
   @Input() apiText: string;
   @Input() responseObj: any;
   
-  @Output() pid: number;
+  @Output() pid: string;
 
   upvoted: boolean = false;
-  downvoted: boolean = false;
 
 
   returnUrl: string;
@@ -43,20 +46,34 @@ export class CardComponent implements OnInit {
 
   newReaction!:Reaction;
   user!:User;
+  newPost!:Post;
   user1!:User;
-  username:String;
-  displayName: String;
+  posts:Post[]=[]
+  username:string;
+  displayName: string;
+  likes: number;
+  listOfUsers: string[]
+  likesNumber: LikeNumber
 
   constructor(    
     private route: ActivatedRoute,
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private postService: PostService,
+    private home: HomeComponent,
+    private apiService: ApiService,
+    private config: ConfigService
    ) { 
+    this.newPost = {
+      tweetid: "",
+      title: "",
+      body: "",
+      username: ""
+    }
     this.newReaction = {
-      post_id: 0,
-      voter_id: 0,
-      type: null
+      tweetid: "",
+      username: ""
     }
     this.user = {
       username: '',
@@ -79,11 +96,31 @@ export class CardComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.pid = this.postId
+    this.postId=this.pid
     this.returnUrl = this.route.snapshot.paramMap.get('name');
 
     this.username = this.authService.getUsername()
     this.displayName = this.username
+    this.home.username = this.username
+    this.home.getPosts().subscribe(posts => {
+      this.posts = posts
+      this.posts.forEach(obj => {
+        if (this.title == obj.title){
+          this.postId = obj.tweetid
+        }
+      });
+      this.home.getList(this.postId).subscribe( userlist => {
+        this.listOfUsers = userlist
+      })
+      this.home.getLikes(this.postId).subscribe( likes => {
+        this.likes = likes.likes
+        //this.likes = this.likesNumber.numberOfLike
+      })
+      /*this.newReaction.tweetid = this.postId
+      this.newReaction.username = this.username
+      this.postVote(this.newReaction).subscribe(data => {
+      })*/
+    })
     this.getUser(this.author)
     this.getUser1(this.username) 
     
@@ -101,83 +138,44 @@ export class CardComponent implements OnInit {
      
     )
   }
+
+
   upvote(){
-
     if(this.authService.tokenIsPresent())
     {
+    this.newReaction.tweetid = this.postId;
+    this.newReaction.username = this.authService.getUsername();
+    this.postVote(this.newReaction).subscribe(data => {console.log(data);
+      this.refresh();})
+    }
+    else{
+      this.router.navigateByUrl('/login');
+    }
 
-    this.newReaction.post_id = this.pid;
-    //this.newReaction.voter_id = this.user1.id;
-    this.newReaction.type = ReactionType.LIKE
-    
-    this.postVote(this.newReaction).subscribe(data=> {console.log(data)
-    
+  }
+
+
+  postVote(reaction : Reaction){
+    return this.authService.likepost(reaction)
+  }
+
+  onButtonClick1(){
+    this.home.getList(this.postId).subscribe( userlist => {
+      this.listOfUsers = userlist
     })
-    
-    }
-    else{
-      this.router.navigateByUrl('/login');
-    }
-
-  }
-  downvote(){
-    if(this.authService.tokenIsPresent())
-    {
-    this.newReaction.post_id = this.pid;
-    //this.newReaction.voter_id = this.user1.id;
-    this.newReaction.type = ReactionType.DISLIKE
-    
-    this.postVote(this.newReaction).subscribe(data=> {console.log(data)
-      })
-    }
-    else{
-      this.router.navigateByUrl('/login');
-    }
+    console.log(this.listOfUsers)
   }
 
-  postVote(reaction: Reaction):Observable<any>{
-    return this.http.post("http://localhost:8080/api/reaction/", reaction);
-  }
-
-
-
-  onButtonClick() {
-    this.expand = true;
-    this.apiClick.next(this.apiText);
-    this.deletePost()
-  }
-
-  onButtonClick1() {
-    if(this.username==this.author){
-    
-      this.deletePost().subscribe({
-      next: data => {
-          this.status = 'Delete successful';
-          this.refresh()
-      },
-      error: error => {
-          this.errorMessage = error.message;
-          console.error('There was an error!', error);
-      }});
-    }
-    else{
-      alert("You are not the author of the post")
-    }
-  }
-
-  deletePost(){
-       
-        console.log(this.title)
-
-        return this.http.delete<any>(`http://localhost:8080/api/post/${this.title}/`);  
+  onButtonClick2(){
+    this.home.getLikes(this.postId).subscribe( likes => {
+      this.likes = likes.likes
+    })
   }
   
   refresh(): void {
         window.location.reload();
     }
     
-
-
 
   toggleExpand() {
     this.expand = !this.expand;
