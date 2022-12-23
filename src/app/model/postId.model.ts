@@ -1,6 +1,5 @@
-export interface Post {
-    tweetid: string;
+export interface TweetCreate {
     title: string;
-    text: string;
-    authorName: string;
+    body: string;
+    username: string;
 }

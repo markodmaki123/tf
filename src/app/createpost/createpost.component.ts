@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Community } from '../model/community.model';
 import { Post } from '../model/post.model';
+import { TweetCreate } from '../model/postId.model';
 import { Observable } from 'rxjs';
 
 interface DisplayMessage {
@@ -23,7 +24,7 @@ export class CreatepostComponent implements OnInit {
   form: FormGroup;
   expand = false;
 
-  newPost!:Post;
+  newPost!:TweetCreate;
   
   submitted = false;
 
@@ -43,7 +44,6 @@ export class CreatepostComponent implements OnInit {
     private http: HttpClient
   ) {
     this.newPost = {
-      tweetid : "",
       title : "",
       body : "",
       username:""
@@ -68,18 +68,15 @@ export class CreatepostComponent implements OnInit {
   }
 
 
-  postPost(post: Post):Observable<any>{
+  postPost(post: TweetCreate):Observable<any>{
     return this.authService.createpost(post);
   }
 
   onSubmit() {
     this.newPost.title = this.form.get('title').value
-    //this.newPost.body = this.form.get('title').value
     this.newPost.username = this.username
 
-    console.log(this.newPost.body)
-
-    this.postPost(this.newPost).subscribe(data => {console.log(data);
+    this.postPost(this.newPost).subscribe(data => {
       this.router.navigate([this.returnUrl]);})
     
   }
