@@ -114,12 +114,7 @@ export class CardComponent implements OnInit {
       })
       this.home.getLikes(this.postId).subscribe( likes => {
         this.likes = likes.likes
-        //this.likes = this.likesNumber.numberOfLike
       })
-      /*this.newReaction.tweetid = this.postId
-      this.newReaction.username = this.username
-      this.postVote(this.newReaction).subscribe(data => {
-      })*/
     })
     this.getUser(this.author)
     this.getUser1(this.username) 
@@ -156,7 +151,7 @@ export class CardComponent implements OnInit {
 
 
   postVote(reaction : Reaction){
-    return this.authService.likepost(reaction)
+    return this.postService.likeTweet(reaction.username, reaction.tweetid)
   }
 
   onButtonClick1(){

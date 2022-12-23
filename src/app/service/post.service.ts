@@ -4,7 +4,7 @@ import {ConfigService} from './config.service';
 import {map} from 'rxjs/operators';
 import { Post } from '../model/post.model';
 import { LikeNumber } from '../model/like.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -49,6 +49,21 @@ export class PostService {
       }
     );
     return 
+  }
+
+  likeTweet(username: string, id : string){
+    return this.http.post<unknown>(this.config.likes_url,{
+      tweetid: id,
+      username: username,
+    }, this.headers())
+  }
+
+  headers(){
+    return {
+      headers : new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
   }
 
 }
